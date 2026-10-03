@@ -1,0 +1,163 @@
+.footer {
+  background: var(--ink-bg);
+  color: var(--paper-on-ink);
+  border-top: 1px solid var(--rule-on-ink);
+  padding-top: var(--space-3xl);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-2xl) var(--gutter);
+  padding-bottom: var(--space-2xl);
+}
+
+.brand {
+  grid-column: 1 / span 5;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.125rem;
+  letter-spacing: 0.02em;
+}
+
+.tagline {
+  margin-top: var(--space-md);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--muted-on-ink);
+  max-width: 32ch;
+}
+
+/* padding-block clears the descender so the underline never crosses the
+   glyphs. The address wraps on narrow viewports, so `anywhere` rather than
+   `break-word` to stop it overflowing the column. */
+.email {
+  display: inline-block;
+  margin-top: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--paper-on-ink);
+  border-bottom: 1px solid var(--signal);
+  padding-block: 3px 4px;
+  overflow-wrap: anywhere;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.email:hover {
+  color: var(--signal);
+}
+
+.col {
+  grid-column: span 2;
+}
+
+.col--last {
+  grid-column: 9 / -1;
+}
+
+.colHeading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-on-ink);
+  margin-bottom: var(--space-md);
+}
+
+.colList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.colLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted-on-ink);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 1px;
+  transition:
+    color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard);
+}
+
+.colLink:hover {
+  color: var(--paper-on-ink);
+  border-bottom-color: var(--signal);
+}
+
+.disclaimer {
+  margin-top: var(--space-md);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted-on-ink);
+  opacity: 0.8;
+  max-width: 40ch;
+}
+
+.baseline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding-block: var(--space-lg);
+  border-top: 1px solid var(--rule-on-ink);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-on-ink);
+}
+
+.toTop {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--muted-on-ink);
+  min-height: 44px;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.toTop:hover {
+  color: var(--signal);
+}
+
+@media (max-width: 1023px) {
+  .grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .brand {
+    grid-column: 1 / -1;
+  }
+
+  .col {
+    grid-column: span 3;
+  }
+
+  .col--last {
+    grid-column: span 3;
+  }
+}
+
+@media (max-width: 767px) {
+  .col,
+  .col--last {
+    grid-column: 1 / -1;
+  }
+}

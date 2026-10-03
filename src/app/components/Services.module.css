@@ -1,0 +1,131 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--ink);
+  /* Opaque so the background flock does not drift across the cells. The
+     inverted hover on .cell still paints over this. */
+  background: var(--surface-card);
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-xl);
+  color: var(--ink);
+  transition:
+    background-color var(--dur-mid) var(--ease-standard),
+    color var(--dur-mid) var(--ease-standard);
+}
+
+/* 1px internal rules forming the quadrant. The AI and ML cell spans the
+   full width, so every cell above it needs a bottom rule. */
+.cell:nth-child(odd) {
+  border-right: 1px solid var(--ink);
+}
+
+.cell:nth-child(-n + 4) {
+  border-bottom: 1px solid var(--ink);
+}
+
+.cell__wide {
+  grid-column: 1 / -1;
+}
+
+/* Beaten the odd-cell rule above, which would otherwise put a rule against
+   the container's own right border. */
+.cell:nth-child(odd).cell__wide {
+  border-right: none;
+}
+
+.cell__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.cell__index {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--signal);
+}
+
+.cell__glyph {
+  color: var(--ink);
+}
+
+.cell__title {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.cell__body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  transition: color var(--dur-mid) var(--ease-standard);
+}
+
+.cell__link {
+  margin-top: auto;
+  align-self: flex-start;
+  padding-top: var(--space-sm);
+}
+
+/* ---- Signature interaction: the cell inverts ---- */
+
+@media (hover: hover) and (pointer: fine) {
+  .cell:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .cell:hover .cell__glyph {
+    color: var(--paper);
+  }
+
+  .cell:hover .cell__body {
+    color: var(--muted-on-ink);
+  }
+
+  .cell:hover .bullets li {
+    color: var(--muted-on-ink);
+  }
+}
+
+/* Touch devices get a pressed state instead of a hover inversion. */
+.cell:active {
+  background: var(--signal-tint);
+}
+
+.footnote {
+  margin-top: var(--space-lg);
+}
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cell {
+    padding: var(--space-lg);
+  }
+
+  .cell:nth-child(odd) {
+    border-right: none;
+  }
+
+  .cell:nth-child(-n + 4) {
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .cell:last-child {
+    border-bottom: none;
+  }
+}

@@ -1,0 +1,13 @@
+.masthead {
+  /* Redundant with the global primitive, but keeps the module self
+     contained so the draw-in animation can be scoped safely. */
+}
+
+.index {
+  color: var(--signal);
+  margin-right: 2px;
+}
+
+[data-tone='ink'] .index {
+  color: var(--signal);
+}

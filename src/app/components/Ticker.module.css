@@ -1,0 +1,49 @@
+.ticker {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-bg);
+  border-top: 1px solid var(--rule-on-ink);
+  border-bottom: 1px solid var(--rule-on-ink);
+  padding-block: var(--space-md);
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee linear infinite;
+}
+
+.ticker:hover .track {
+  animation-play-state: paused;
+}
+
+.group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.item {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-on-ink);
+  padding-inline: var(--space-md);
+}
+
+.sep {
+  display: inline-flex;
+  color: var(--signal);
+  flex-shrink: 0;
+}
+
+/* Background tabs are already throttled by the browser, so the marquee
+   costs nothing while the visitor is on another tab. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

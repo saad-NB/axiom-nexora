@@ -1,0 +1,147 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table caption {
+  text-align: left;
+}
+
+.table th {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-on-ink);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--rule-on-ink);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: var(--space-lg) var(--space-md) var(--space-lg) 0;
+  border-bottom: 1px solid var(--rule-on-ink);
+  vertical-align: top;
+  transition: background-color var(--dur-mid) var(--ease-standard);
+}
+
+.table tbody tr {
+  transition: background-color var(--dur-mid) var(--ease-standard);
+}
+
+.table tbody tr:hover td {
+  background: var(--ink-surface);
+}
+
+.price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  color: var(--signal);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.engagement {
+  font-weight: 700;
+  font-size: 1.0625rem;
+  letter-spacing: -0.01em;
+  color: var(--paper-on-ink);
+  min-width: 180px;
+}
+
+.coverage {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--muted-on-ink);
+  max-width: 52ch;
+}
+
+.note {
+  display: block;
+  margin-top: var(--space-sm);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: var(--muted-on-ink);
+  opacity: 0.85;
+}
+
+.timeline {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--paper-on-ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.flash td {
+  animation: row-flash 400ms var(--ease-standard) 1;
+}
+
+.footnote {
+  margin-top: var(--space-lg);
+}
+
+/* ---- Mobile: the table becomes stacked cards ---- */
+
+@media (max-width: 767px) {
+  .table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
+    display: block;
+    width: 100%;
+  }
+
+  .table tr {
+    border-bottom: 1px solid var(--rule-on-ink);
+    padding-block: var(--space-md);
+  }
+
+  .table tr:last-child {
+    border-bottom: none;
+  }
+
+  .table td {
+    border-bottom: none;
+    padding: 0 0 var(--space-sm);
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-on-ink);
+    margin-bottom: var(--space-xs);
+  }
+
+  .table td:last-child {
+    padding-bottom: 0;
+  }
+
+  .engagement {
+    min-width: 0;
+  }
+
+  .price {
+    font-size: 1.5rem;
+  }
+}

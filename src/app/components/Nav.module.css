@@ -1,0 +1,235 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: var(--z-nav);
+  background: var(--paper);
+  border-bottom: 1px solid transparent;
+  transition:
+    height var(--dur-mid) var(--ease-standard),
+    border-color var(--dur-mid) var(--ease-standard);
+}
+
+.nav[data-scrolled='true'] {
+  height: 60px;
+  border-bottom-color: var(--rule);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  height: var(--nav-h);
+  transition: height var(--dur-mid) var(--ease-standard);
+}
+
+.nav[data-scrolled='true'] .nav__inner {
+  height: 60px;
+}
+
+/* ---- Brand ---- */
+
+.nav__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: auto;
+  flex-shrink: 0;
+}
+
+.nav__wordmark {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+/* ---- Links ---- */
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nav__link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  /* The 44px target comes from padding, not min-height. min-height made the
+     link taller than its text, so the absolutely positioned rule below had to
+     guess an offset from the box bottom, and the guess cut through the glyphs
+     whenever the collapsed nav moved the text inside the box. */
+  padding-block: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.nav__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  /* Anchored to the text box, not the touch target. */
+  bottom: 10px;
+  width: 100%;
+  height: 2px;
+  background: var(--signal);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.nav__link:hover {
+  color: var(--signal-text);
+}
+
+.nav__link:hover::after,
+.nav__link[data-active='true']::after {
+  transform: scaleX(1);
+}
+
+.nav__link[data-active='true'] {
+  color: var(--ink);
+}
+
+/* ---- Mobile toggle ---- */
+
+.nav__toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--ink);
+}
+
+/* ---- Overlay menu ---- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-menu);
+  background: var(--ink);
+  color: var(--paper-on-ink);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-lg) var(--pad-x) var(--space-2xl);
+  overflow-y: auto;
+}
+
+.overlay__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-h);
+  flex-shrink: 0;
+}
+
+.overlay__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.overlay__wordmark {
+  font-weight: 800;
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+}
+
+.overlay__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--paper-on-ink);
+}
+
+.overlay__links {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--space-2xl);
+  border-top: 1px solid var(--rule-on-ink);
+}
+
+.overlay__link {
+  display: block;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--rule-on-ink);
+  font-weight: 700;
+  font-size: 2rem;
+  letter-spacing: -0.02em;
+  color: var(--paper-on-ink);
+  opacity: 0;
+  animation: overlay-fade 0.35s var(--ease-out-expo) forwards;
+  animation-delay: calc(var(--i) * 60ms);
+}
+
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.overlay__cta {
+  margin-top: var(--space-2xl);
+  align-self: flex-start;
+}
+
+.overlay__cta.btn {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: var(--paper);
+}
+
+.overlay__cta.btn:hover {
+  background: var(--paper);
+  border-color: var(--paper);
+  color: var(--ink);
+}
+
+.overlay__meta {
+  margin-top: auto;
+  padding-top: var(--space-2xl);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted-on-ink);
+}
+
+/* ---- Breakpoints ---- */
+
+@media (max-width: 899px) {
+  .nav__links {
+    display: none;
+  }
+
+  .nav__inner > .btn {
+    display: none;
+  }
+
+  .nav__toggle {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay__link {
+    opacity: 1;
+    animation: none;
+  }
+}

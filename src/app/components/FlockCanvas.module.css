@@ -1,0 +1,39 @@
+/*
+ * Fixed, viewport-wide, and behind everything. A negative z-index puts the
+ * canvas above the body background but below all in-flow content, which is
+ * what lets the text sit cleanly on top without any stacking context games.
+ *
+ * Colour is read from --signal in JS via getComputedStyle so the design
+ * token stays the single source of truth for the accent.
+ */
+
+.canvas {
+  --flock-opacity: 0.5;
+
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  color: var(--signal);
+  opacity: var(--flock-opacity);
+  pointer-events: none;
+  /* Never intercept clicks, taps, text selection, or focus. */
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  .canvas {
+    --flock-opacity: 0.42;
+  }
+}
+
+/*
+ * Reduced motion still gets a static scatter, so the background does not
+ * simply vanish. The component stops its animation loop and paints one frame.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .canvas {
+    --flock-opacity: 0.3;
+  }
+}

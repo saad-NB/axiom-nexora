@@ -1,0 +1,35 @@
+.wrap {
+  padding-top: calc(var(--nav-h) + var(--space-4xl));
+  padding-bottom: var(--space-4xl);
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: clamp(2.25rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  margin-top: var(--space-md);
+  max-width: 18ch;
+}
+
+.period {
+  color: var(--signal);
+}
+
+.body {
+  max-width: 52ch;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+}
+
+.footnote {
+  margin-top: var(--space-3xl);
+}

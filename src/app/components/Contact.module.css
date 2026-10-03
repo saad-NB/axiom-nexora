@@ -1,0 +1,155 @@
+.inner {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--space-2xl) var(--gutter);
+  align-items: start;
+}
+
+.text {
+  grid-column: 1 / span 8;
+}
+
+.plate {
+  grid-column: 9 / -1;
+}
+
+.title {
+  font-size: clamp(2.25rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  color: var(--ink);
+}
+
+.body {
+  margin-top: var(--space-lg);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--ink);
+  max-width: 46ch;
+}
+
+.plateBox {
+  display: block;
+  padding: var(--space-lg);
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  transition:
+    background-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+.plateBox:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.plateLabel {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.plateBox:hover .plateLabel {
+  color: var(--muted-on-ink);
+}
+
+/* Label and icon share the top row. The icon sits beside short text, so it
+   can never be dragged to the vertical centre of a wrapped address. */
+.plateHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+}
+
+.plateIcon {
+  flex-shrink: 0;
+}
+
+/* The address is its own block so it wraps on its own terms. A flex row with
+   space-between put the icon level with the gap between two lines of text,
+   which read as a rule striking through the address. */
+.plateAddress {
+  display: block;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.plateBox:hover .plateAddress {
+  color: var(--paper);
+}
+
+/* display:block is load-bearing. As an inline span the margin-top and
+   padding-top painted above the first line box without taking part in
+   layout, so the border-top was drawn 16px up, inside the address above,
+   and read as a rule striking through it. */
+.plateNote {
+  display: block;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--rule);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.plateBox:hover .plateNote {
+  color: var(--muted-on-ink);
+}
+
+.plateBox:hover .plateNote {
+  border-top-color: var(--rule-on-ink);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* padding-block rather than padding-bottom alone. On an inline-flex box the
+   bottom padding has to clear the descender, and 2px left the border sitting
+   inside the cap height on the uppercase mono labels. */
+.link {
+  color: var(--ink);
+  border-bottom: 1px solid var(--ink);
+  padding-block: 3px 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: color var(--dur-fast) var(--ease-standard);
+}
+
+.link:hover {
+  color: var(--paper);
+}
+
+@media (max-width: 1023px) {
+  .inner {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .text,
+  .plate {
+    grid-column: 1 / -1;
+  }
+}

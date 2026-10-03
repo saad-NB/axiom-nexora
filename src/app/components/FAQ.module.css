@@ -1,0 +1,72 @@
+.list {
+  border-top: 1px solid var(--ink);
+  /* Opaque so the background flock does not drift across the open answers. */
+  background: var(--surface-card);
+}
+
+.item {
+  border-bottom: 1px solid var(--rule);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-lg) 0;
+  text-align: left;
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--ink);
+  transition: color var(--dur-mid) var(--ease-standard);
+}
+
+.trigger:hover {
+  color: var(--signal-text);
+}
+
+.trigger[aria-expanded='true'] {
+  color: var(--signal-text);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--ink);
+  transition: transform var(--dur-mid) var(--ease-standard);
+}
+
+.trigger[aria-expanded='true'] .icon {
+  transform: rotate(90deg);
+}
+
+.panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 250ms var(--ease-standard),
+    opacity 250ms var(--ease-standard);
+}
+
+.panel[data-open='true'] {
+  max-height: 32rem;
+  opacity: 1;
+}
+
+.answer {
+  padding-bottom: var(--space-lg);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--ink-soft);
+  max-width: 68ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
+}

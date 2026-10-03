@@ -1,0 +1,151 @@
+.list {
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--ink);
+  /* Opaque so the background flock does not drift across the rows. The
+     inverted hover on .row still paints over this. */
+  background: var(--surface-card);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gutter);
+  align-items: start;
+  padding: var(--space-lg) 0;
+  border-bottom: 1px solid var(--rule);
+  color: var(--ink);
+  transition:
+    background-color var(--dur-mid) var(--ease-standard),
+    color var(--dur-mid) var(--ease-standard);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row__index {
+  grid-column: 1 / span 1;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--signal);
+  padding-top: 4px;
+}
+
+.row__body {
+  grid-column: 2 / span 6;
+}
+
+.row__name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+.row__ext {
+  color: var(--gray);
+  transition:
+    color var(--dur-mid) var(--ease-standard),
+    transform var(--dur-mid) var(--ease-standard);
+}
+
+.row__description {
+  margin-top: var(--space-sm);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  transition: color var(--dur-mid) var(--ease-standard);
+}
+
+.row__tags {
+  grid-column: 8 / span 3;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gray);
+  padding-top: 4px;
+  transition: color var(--dur-mid) var(--ease-standard);
+}
+
+.row__arrow {
+  grid-column: 12 / span 1;
+  display: flex;
+  justify-content: flex-end;
+  color: var(--ink);
+  padding-top: 2px;
+  transition:
+    color var(--dur-mid) var(--ease-standard),
+    transform var(--dur-mid) var(--ease-standard);
+}
+
+.row__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+/* ---- Signature interaction: the row inverts ---- */
+
+@media (hover: hover) and (pointer: fine) {
+  .row:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .row:hover .row__description {
+    color: var(--muted-on-ink);
+  }
+
+  .row:hover .row__tags {
+    color: var(--muted-on-ink);
+  }
+
+  .row:hover .row__ext {
+    color: var(--muted-on-ink);
+  }
+
+  .row:hover .row__arrow {
+    color: var(--signal);
+    transform: translateX(4px);
+  }
+}
+
+@media (max-width: 1023px) {
+  .row {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .row__index {
+    grid-column: 1 / span 1;
+  }
+
+  .row__body {
+    grid-column: 2 / -1;
+  }
+
+  .row__tags {
+    grid-column: 2 / -1;
+    padding-top: 0;
+  }
+
+  .row__arrow {
+    grid-column: 6 / span 1;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .row__name {
+    font-size: 1.25rem;
+  }
+}
