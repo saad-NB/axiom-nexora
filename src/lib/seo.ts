@@ -9,7 +9,7 @@ import {
   social,
 } from '@config';
 import { faq } from '@/content/process';
-import { pricing } from '@/content/pricing';
+import { pricing, type PricingRow } from '@/content/pricing';
 import { publications } from '@/content/publications';
 import { work } from '@/content/work';
 
@@ -59,21 +59,57 @@ function minPriceFrom(price: string): string | null {
 
 /**
  * A price is a floor, not a total, when it is written with a trailing plus or
- * a leading "from". Schema.org treats those differently, so a "+" that is only
- * mentioned in the price note must not silently change the price type.
+ * a leading "from". A "+" that is only mentioned in the price note must not
+ * change how the price itself is reported.
+ *
+ * The two forms are modelled differently on purpose. A flat price is a
+ * UnitPriceSpecification with a single `price`. A floor has no single price to
+ * quote, so it is a plain PriceSpecification carrying only `minPrice`, and the
+ * enclosing Offer omits `price` entirely. Publishing `price` on a floor row is
+ * the one mistake worth avoiding here: it asserts the engagement costs exactly
+ * the floor figure, which is the number most likely to be shown to a visitor.
  */
 function isFloorPrice(price: string): boolean {
   return /\+/.test(price) || /^\s*from\b/i.test(price);
 }
 
-const PRICE_SPEC_FLAT = 'https://schema.org/PriceSpecification';
-const PRICE_SPEC_FLOOR = 'https://schema.org/PriceSpecificationMinimumPrice';
+/** The price block for one row, shaped by whether the price is a floor. */
+function priceSpec(row: PricingRow, minPrice: string): Json {
+  const floor = isFloorPrice(row.price);
+  return floor
+    ? {
+        '@type': 'PriceSpecification',
+        minPrice,
+        priceCurrency: 'USD',
+      }
+    : {
+        '@type': 'UnitPriceSpecification',
+        price: minPrice,
+        priceCurrency: 'USD',
+        valueAddedTaxIncluded: false,
+      };
+}
+
+/**
+ * Timeline and price note share the single `description` slot, so they are
+ * joined rather than spread twice. Two spreads would let the second silently
+ * overwrite the first, and the output would mean something different on each
+ * row depending on which fields that row happened to have.
+ */
+function offerDescription(row: PricingRow): string | undefined {
+  const parts = [
+    row.priceNote,
+    row.timeline ? `Typical timeline: ${row.timeline}` : undefined,
+  ].filter((part): part is string => Boolean(part));
+  return parts.length > 0 ? parts.join(' ') : undefined;
+}
 
 const offers = OFFERABLE.flatMap(({ name, rowId }) => {
   const row = pricing.find((item) => item.id === rowId);
   if (!row) return [];
   const minPrice = minPriceFrom(row.price);
   if (!minPrice) return [];
+  const description = offerDescription(row);
   return [
     {
       '@type': 'Offer',
@@ -81,16 +117,8 @@ const offers = OFFERABLE.flatMap(({ name, rowId }) => {
       'url': `${canonicalUrl}/#${rowId}`,
       priceCurrency: 'USD',
       ...(isFloorPrice(row.price) ? {} : { price: minPrice }),
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: minPrice,
-        priceCurrency: 'USD',
-        minPrice,
-        valueAddedTaxIncluded: false,
-        priceType: isFloorPrice(row.price) ? PRICE_SPEC_FLOOR : PRICE_SPEC_FLAT,
-        ...(row.timeline ? { description: `Typical timeline: ${row.timeline}` } : {}),
-        ...(row.priceNote ? { description: row.priceNote } : {}),
-      },
+      priceSpecification: priceSpec(row, minPrice),
+      ...(description ? { description } : {}),
     },
   ];
 });
@@ -152,13 +180,8 @@ export const structuredData: Json = {
             ...(minPrice
               ? {
                   priceCurrency: 'USD',
-                  priceSpecification: {
-                    '@type': 'UnitPriceSpecification',
-                    price: minPrice,
-                    priceCurrency: 'USD',
-                    minPrice,
-                    priceType: isFloorPrice(row.price) ? PRICE_SPEC_FLOOR : PRICE_SPEC_FLAT,
-                  },
+                  ...(isFloorPrice(row.price) ? {} : { price: minPrice }),
+                  priceSpecification: priceSpec(row, minPrice),
                 }
               : {}),
           };
