@@ -71,7 +71,7 @@ export const faq: FaqItem[] = [
     id: 'faq-engagement',
     question: 'What does a typical engagement look like?',
     answer:
-      'Most engagements are fixed-scope with a fixed price: a diagnostic or audit ($100 to $500), a defined project (websites from $50, full-stack builds from $200, data analysis from $100), or ongoing support by written agreement. Everything begins with a scope you approve.',
+      'Most engagements are fixed-scope with a fixed price, covering either a diagnostic or a defined project, or ongoing support by written agreement. Everything begins with a scope you approve.',
   },
   {
     id: 'faq-trials',
